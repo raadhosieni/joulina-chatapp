@@ -7,6 +7,9 @@ import Navbar from "./navbar.component";
 import axios from 'axios';
 import { rootUrl } from "../globals";
 
+// utils
+import moment from 'moment';
+
 
 
 const Chatting = ({ username, room, password, setRoom, login }) => { 
@@ -20,6 +23,11 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
     useEffect(() => {
         if(authContext.login){// User logged in successfully
             socket.emit("joinRoom", {username, room});
+            
+            // Get message from db
+            axios.get(`${rootUrl}messages/${room}`)
+                .then(res => setMessages(res.data));
+
         }
         else // Invalid user redirect to login
             history.push("/");
@@ -30,7 +38,10 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
         const messagesContainer = document.getElementById('messages');
         
         socket.on("message", msg => {
+            
+            // Update messages array
             setMessages([...messages, msg]);
+            
             if(msg.userId === socketId) {
                 // Add message to db
                 axios.post(`${rootUrl}messages/add`, msg)
@@ -38,6 +49,7 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
                     .catch(err => console.log(err));
             }
             
+            // Scroll to new message
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         });
 
@@ -62,14 +74,10 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
             socket.emit('chatMessage', message);
             e.target.children.message.value = '';
         }
-        
-
     }
 
     const onChangeMessage = (e) => {
-        
         setMessage(e.target.value);
-        
     }
 
     return (         
@@ -77,8 +85,16 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
                 <main className="chatting-main">
                     <Navbar />
                     <div className="messages" id="messages">
-                        { messages.map( msg => {
-                            return <Message message={msg}  key={msg.time} />
+                        { messages.map( (msg, index) => {
+                            
+                            return (    
+                                <>
+                                    {(new Date((messages[index - 1] || 0).date)).getDate() !== (new Date(messages[index].date)).getDate() 
+                                    && 
+                                    <div className="date-splitter" key={(new Date(msg.date)).getTime() + 1}>{moment(msg.date).format("MMMM Do YYYY")}</div>}
+                                    <Message message={msg}  key={(new Date(msg.date)).getTime()} username={username}/>
+                                </>
+                            )
                         })}
                     </div>
                     <form className="chatting-form" onSubmit={onSubmit}>
@@ -104,15 +120,15 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
     )
 }
 
-const Message = ({ message }) => {
+const Message = ({ message, username }) => {
     return (
-        <div className={ message.userId === socketId? "message left": "message right"}>
+        <div className={ message.username === username? "message left": "message right"}>
             <div className="info">
                 <span className="username">
-                    {message.userId === socketId? 'You': message.username}
+                    {message.username === username? 'You': message.username}
                 </span>
                 <span className="timestamp">
-                    {message.time}
+                    {moment(message.date).format('h:mm:ss a')}
                 </span>
             </div>
             <div className="text">
