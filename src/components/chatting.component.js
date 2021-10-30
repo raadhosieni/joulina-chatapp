@@ -22,11 +22,12 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
 
     useEffect(() => {
         if(authContext.login){// User logged in successfully
+
             socket.emit("joinRoom", {username, room});
             
-            // Get message from db
+            // Get all room messages from db
             axios.get(`${rootUrl}messages/${room}`)
-                .then(res => setMessages(res.data));
+                .then(res => setMessages(res.data));    
 
         }
         else // Invalid user redirect to login
@@ -43,10 +44,10 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
             setMessages([...messages, msg]);
             
             if(msg.userId === socketId) {
-                // Add message to db
+                // Add new message to db
                 axios.post(`${rootUrl}messages/add`, msg)
                     .then(res => console.log(res.data))
-                    .catch(err => console.log(err));
+                    .catch(err => console.error(err));
             }
             
             // Scroll to new message
@@ -70,7 +71,6 @@ const Chatting = ({ username, room, password, setRoom, login }) => {
 
         if (e.target.children.message.value) {
             // Send message to server
-            
             socket.emit('chatMessage', message);
             e.target.children.message.value = '';
         }

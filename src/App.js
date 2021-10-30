@@ -7,12 +7,12 @@ import Register from './components/register.component';
 import Chatting from './components/chatting.component';
 import { useContext } from 'react';
 
-const user = {
-  username: '',
+const auth = {
+  user: {},
   login: false
 }
 
-const AuthContext = React.createContext(user);
+const AuthContext = React.createContext(auth);
 
 function App() {
   
@@ -39,7 +39,7 @@ function App() {
 
   return (
     
-    <AuthContext.Provider value={user} className="App">
+    <AuthContext.Provider value={auth} className="App">
 
         { (!showChatting && showLogin) && (
           <div className="container">

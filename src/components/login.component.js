@@ -26,17 +26,14 @@ const Login = ({ username, password, room, setUsername, setPassword, setRoom, se
         axios.post(`${rootUrl}auth/login`, {
             username, password
         })
-        .then(res => {
-            if(res.data.login) { // User login
+        .then(res => { // Check server response
+            if (res.data.login) { // login successfully
+                console.log('login successfully');
                 authContext.login = true;
-                authContext.username = username
+                authContext.user = res.data.users[0];
                 setShowChatting(true);
-                // Save user in session
-                window.sessionStorage.setItem('username', username);
-                window.sessionStorage.setItem('password', password);
-            } else { // Invalid user
-                authContext.login = false;
-                setResponse('Invalid username or password');
+            } else { // login failed
+                setResponse(res.data.message);
             }
         })
         .catch(err => console.log(err));
