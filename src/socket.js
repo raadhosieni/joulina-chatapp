@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
+import { rootUrl } from './globals';
 
-export const socket = io(`https://${window.location.hostname}:5000`);
+export const socket = io(rootUrl);
 
 export let socketId;
 
