@@ -116,6 +116,15 @@ form {
   border-radius: 20px;
 }
 
+@media (max-width: 779px) {
+  .chatting-container {
+    grid-template-columns: 1fr;
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+  }
+}
+
 .chatting-main {
   display: flex;
   flex-direction: column;
@@ -154,6 +163,12 @@ form {
   font-size: 16px;
 }
 
+@media (max-width: 779px) {
+  .username {
+    font-size: 13px;
+  }
+}
+
 .chatting-side .room-name {
   margin: 30px 0;
 }
@@ -164,9 +179,6 @@ form {
 
 .chatting-side .room-name h3 {
   color: var(--primary);
-}
-
-.users {
 }
 
 .users h2 {
@@ -190,7 +202,7 @@ form {
 
 .chatting-main .messages {
   flex-grow: 1;
-  padding: 20px;
+  /* padding: 20px; */
   margin-top: 30px;
   overflow-y: scroll;
   max-height: calc(100vh - var(--message-input-height) - 90px);
@@ -215,6 +227,13 @@ form {
   width: fit-content;
   border-radius: 10px;
   background-color: none;
+}
+
+@media (max-width: 779px) {
+  .chatting-main .messages .message {
+    font-size: 12px;
+    padding: 6px 6px;
+  }
 }
 
 .message.left {
