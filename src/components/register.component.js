@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { rootUrl } from "../globals";
+import Navbar from "./navbar.component";
 
-const Register = () => {
+const Register = ({ toggleLoginRegister }) => {
     const [ firstname, setFirstname ] = useState('');
     const [ lastname, setLastname ] = useState('');
     const [ email, setEmail ] = useState('');
@@ -49,7 +50,7 @@ const Register = () => {
     }
 
     return (    
-        <div>
+        <>
             <form onSubmit={onSubmit}>
                 <div className="form-control">
                     <label htmlFor="first-name">Firstname: </label>
@@ -127,10 +128,10 @@ const Register = () => {
                         id="login"
                         className="btn"
                     />
+                    <button onClick={toggleLoginRegister} className="link">Login</button>
                 </div>
             </form>
-        </div>
-        
+        </>
     )
 }
 

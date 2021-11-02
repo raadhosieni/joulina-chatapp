@@ -6,7 +6,7 @@ import Navbar from './navbar.component';
 import { rootUrl } from '../globals';
 
 
-const Login = ({ username, password, room, setUsername, setPassword, setRoom, setShowChatting }) => {
+const Login = ({ username, password, room, setUsername, setPassword, setRoom, setShowChatting, toggleLoginRegister, hideLoginRegister }) => {
 
     const [ rooms, setRooms ] = useState(['javascript', 'php', 'python', 'html']);
     const [ response, setResponse ] = useState('');
@@ -32,6 +32,7 @@ const Login = ({ username, password, room, setUsername, setPassword, setRoom, se
                 authContext.login = true;
                 authContext.user = res.data.users[0];
                 setShowChatting(true);
+                hideLoginRegister();
             } else { // login failed
                 setResponse(res.data.message);
             }
@@ -42,7 +43,6 @@ const Login = ({ username, password, room, setUsername, setPassword, setRoom, se
 
     return (    
         <>
-            <Navbar />
             <form onSubmit={onSubmit}>
                 <div className="form-control">
                     <label htmlFor="username">Username: </label>
@@ -94,9 +94,12 @@ const Login = ({ username, password, room, setUsername, setPassword, setRoom, se
                         id="login"
                         className="btn"
                     />
+                    <button onClick={toggleLoginRegister} className="link" >Register</button> 
+                           
                 </div>
                 
             </form>
+            
         </>
         
     )

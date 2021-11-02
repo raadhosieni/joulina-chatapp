@@ -1,0 +1,110 @@
+/* Chatting Start*/
+.chatting_container {
+  width: 100%;
+  height: 100vh;
+  min-height: 400px;
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+@media (max-width: 778px) {
+  .chatting_container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.chatting_main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-height: calc(100vh - 60px);
+}
+
+.chatting_main .messages {
+  padding: 20px;
+  overflow-y: scroll;
+  background-color: var(--light-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.messages .date_splitter {
+  margin: 20px auto;
+  text-align: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: var(--primary-bg);
+  width: fit-content;
+  border-radius: 10px;
+}
+
+.chatting_main .messages .message {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  width: fit-content;
+  border-radius: 10px;
+  background-color: none;
+}
+
+@media (max-width: 779px) {
+  .chatting_main .messages .message {
+    font-size: 14px;
+    padding: 6px 6px;
+  }
+}
+
+.message.left {
+  background-color: #333;
+  color: greenyellow;
+  align-self: flex-start;
+}
+
+.message.right {
+  align-self: flex-end;
+  color: thistle;
+  background-color: #333;
+}
+
+.message .info {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.message .info .username {
+  margin-right: 10px;
+}
+
+/* Chatting Form Start*/
+.chatting_form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 5px 0 0;
+}
+
+.text_input {
+  flex-grow: 1;
+  background-color: var(--secondary-bg);
+  font-family: "Ubuntu", sans-serif;
+}
+
+.text_input,
+.btn {
+  padding: 10px 20px;
+  border: none;
+}
+
+.text_input:focus,
+.btn:focus {
+  outline: none;
+}
+
+.btn {
+  font-weight: bold;
+  background-color: var(--dark-bg);
+  color: var(--primary);
+  cursor: pointer;
+}

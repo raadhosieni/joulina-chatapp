@@ -1,11 +1,11 @@
-import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 // Components
 import Login from './components/login.component';
 import Register from './components/register.component';
 import Chatting from './components/chatting.component';
-import { useContext } from 'react';
+import ChattingSidebar from './components/chatting_sidebar.component';
+import Navbar from './components/navbar.component';
 
 const auth = {
   user: {},
@@ -20,7 +20,11 @@ function App() {
   const [ password, setPassword ] = useState('');
   const [ room, setRoom ] = useState('');
   const [ showLogin, setShowLogin ] = useState(true);
+  const [ showRegister, setShowRegister ] = useState(false);
   const [ showChatting, setShowChatting ] = useState(false);
+  const [ showUsers, setShowUsers ] = useState(false);
+  const [ users, setUsers ] = useState([]);
+  
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
@@ -33,16 +37,28 @@ function App() {
     }
   }, []);
 
-  function handleShowLogin() {
+  function toggleLoginRegister() {
     setShowLogin(!showLogin);
+    setShowRegister(!showRegister);
+  }
+
+  function hideLoginRegister() {
+    setShowLogin(false);
+    setShowRegister(false);
+    console.log('hide');
+  }
+
+  function handleShowUsers() {
+      setShowUsers(!showUsers);
   }
 
   return (
     
-    <AuthContext.Provider value={auth} className="App">
-
-        { (!showChatting && showLogin) && (
-          <div className="container">
+    <AuthContext.Provider value={auth} >
+        <div className="container">
+        <Navbar handleShowUsers={handleShowUsers} />
+        { showLogin && (
+          
             <Login 
               setUsername={setUsername} 
               setPassword={setPassword} 
@@ -51,16 +67,18 @@ function App() {
               password={password}
               room={room}
               setShowChatting={setShowChatting}
+              toggleLoginRegister={toggleLoginRegister}
+              hideLoginRegister={hideLoginRegister}
             />
-            <button onClick={handleShowLogin} className="link" >Register</button>
-          </div>
+          
         )}
         
-        {showLogin || (
-          <div className="container">
-            <Register />
-            <button onClick={handleShowLogin} className="link" >Login</button>
-          </div>
+        {showRegister && (
+          
+            <Register 
+              toggleLoginRegister={toggleLoginRegister}
+            />
+          
         ) }
 
         {showChatting && (
@@ -69,8 +87,14 @@ function App() {
               room={room}
               password={password}
               setRoom={setRoom}
-          />
+              showUsers={showUsers}
+              users={users}
+              setUsers={setUsers}
+              setShowUsers={setShowUsers}
+            />       
         )}
+        
+        </div>
     </AuthContext.Provider>
     
   );
