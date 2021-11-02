@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  max-height: calc(100vh - 60px);
+  max-height: calc(100vh - 100px);
 }
 
 .chatting_main .messages {
