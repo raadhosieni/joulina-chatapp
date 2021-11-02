@@ -33,6 +33,7 @@ const Login = ({ username, password, room, setUsername, setPassword, setRoom, se
                 authContext.user = res.data.users[0];
                 setShowChatting(true);
                 hideLoginRegister();
+                window.sessionStorage.setItem('username', username);
             } else { // login failed
                 setResponse(res.data.message);
             }
