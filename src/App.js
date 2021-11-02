@@ -33,6 +33,7 @@ function App() {
     if(username) {
       setUsername(username);
       setShowChatting(true);
+      setShowLogin(false);
       authContext.login = true;
     }
   }, []);
